@@ -1,5 +1,5 @@
 {{- $clusterName := printf "%s-timescale-cluster" (include "dt4mob.fullname" .) }}
-{{- $imgcatalog := printf "%s-cloudnative-pg-timescaledb-pg15" (include "dt4mob.fullname" .) }}
+{{- $imgcatalog := printf "%s-cloudnative-pg-timescaledb" (include "dt4mob.fullname" .) }}
 {{- $secretName := printf "%s-timescale-secret" (include "dt4mob.fullname" .) }}
 {{- $schema := printf "%s-init-schema" (include "dt4mob.fullname" .) }}
 apiVersion: postgresql.cnpg.io/v1
@@ -12,7 +12,7 @@ spec:
     apiGroup: postgresql.cnpg.io
     kind: ImageCatalog
     name: {{ $imgcatalog }}
-    major: 15
+    major: 18
   postgresUID: {{ .Values.timescale.securityContext.postgresUID }}
   postgresGID: {{ .Values.timescale.securityContext.postgresGID }}
 
