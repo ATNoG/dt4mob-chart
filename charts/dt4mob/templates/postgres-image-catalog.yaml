@@ -1,4 +1,4 @@
-{{- $name := printf "%s-cloudnative-pg-timescaledb-pg15" (include "dt4mob.fullname" .) }}
+{{- $name := printf "%s-cloudnative-pg-timescaledb" (include "dt4mob.fullname" .) }}
 apiVersion: postgresql.cnpg.io/v1
 kind: ImageCatalog
 metadata:
