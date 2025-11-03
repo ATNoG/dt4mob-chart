@@ -419,13 +419,6 @@ timescale:
     storageClass: "local-path"
     size: 10Gi
 
-  postgresql:
-    parameters:
-      max_wal_size: "2GB"
-      max_wal_senders: "10"
-      max_replication_slots: "10" 
-      wal_level: "replica"
-
   database: "dt4mob"
   username: "admin"
   
