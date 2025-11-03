@@ -418,8 +418,5 @@ timescale:
   storage:
     storageClass: "local-path"
     size: 10Gi
-
-  database: "dt4mob"
-  username: "admin"
   
   

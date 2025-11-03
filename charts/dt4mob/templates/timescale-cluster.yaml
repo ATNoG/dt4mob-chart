@@ -1,7 +1,5 @@
 {{- $clusterName := printf "%s-timescale-cluster" (include "dt4mob.fullname" .) }}
 {{- $imgcatalog := printf "%s-cloudnative-pg-timescaledb" (include "dt4mob.fullname" .) }}
-{{- $secretName := printf "%s-timescale-secret" (include "dt4mob.fullname" .) }}
-{{- $schema := printf "%s-init-schema" (include "dt4mob.fullname" .) }}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -22,17 +20,8 @@ spec:
 
   bootstrap:
     initdb:
-      database: {{ .Values.timescale.database }}
-      {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace $secretName) | default dict }}
-      {{- $secretData := (get $secretObj "data") | default dict }}
-      {{- $username := (get $secretData "username") | b64dec }}
-      owner: {{ $username | default .Values.timescale.username | default "admin" }}
-      secret:
-        name: {{ $secretName }}
-      postInitApplicationSQLRefs:
-        configMapRefs:
-        - name: {{ $schema }}
-          key: init-schema.sql
+      postInitSQL:
+       - CREATE EXTENSION IF NOT EXISTS timescaledb;
 
   storage:
     size: {{ .Values.timescale.storage.size }}
