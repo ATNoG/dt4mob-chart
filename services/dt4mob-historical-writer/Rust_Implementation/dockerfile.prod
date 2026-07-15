@@ -1,0 +1,39 @@
+FROM alpine:3.20 AS builder
+
+RUN apk add --no-cache \
+    build-base \
+    rustup \
+    librdkafka-dev \
+    openssl-dev \
+    pkgconfig
+
+RUN rustup-init -y --default-toolchain stable
+ENV PATH=/root/.cargo/bin:$PATH
+
+ENV OPENSSL_NO_VENDOR=1
+
+WORKDIR /app
+
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir src && echo "fn main() {}" > src/main.rs
+RUN cargo build --release 2>/dev/null || true
+
+COPY . .
+RUN cargo build --release
+
+RUN strip target/release/Rust_Implementation
+
+FROM alpine:3.20
+
+RUN apk add --no-cache \
+    librdkafka \
+    openssl \
+    ca-certificates
+
+ENV RUST_BACKTRACE=1
+
+COPY --from=builder /app/target/release/Rust_Implementation /app/Rust_Implementation
+
+RUN mkdir -p /certs
+
+CMD ["/app/Rust_Implementation"]

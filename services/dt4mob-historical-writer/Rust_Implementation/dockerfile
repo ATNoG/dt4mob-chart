@@ -1,0 +1,41 @@
+FROM alpine:3.24 AS builder
+
+RUN apk add --no-cache \
+    build-base \
+    rustup \
+    librdkafka-dev \
+    openssl-dev \
+    pkgconfig \
+    cmake
+
+RUN rustup-init -y --default-toolchain stable
+ENV PATH=/root/.cargo/bin:$PATH
+
+WORKDIR /app
+
+# Cache dependencies cleanly (without hiding errors)
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir src && echo "fn main() {}" > src/main.rs
+RUN cargo build
+
+# Copy real source code and build
+COPY . .
+RUN cargo build
+
+FROM alpine:3.24
+
+RUN apk add --no-cache \
+    librdkafka \
+    openssl \
+    ca-certificates
+
+# Force immediate log flushing to terminal/Kubernetes
+ENV RUST_LOG_STYLE=always
+ENV RUST_BACKTRACE=1
+ENV LOG_LEVEL=debug
+
+COPY --from=builder /app/target/debug/Rust_Implementation /app/Rust_Implementation
+
+RUN mkdir -p /certs
+
+CMD ["/app/Rust_Implementation"]

@@ -1,0 +1,14 @@
+# Rust-generated files
+target/
+*.rs.bk
+
+# Environment file
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+test*
+deploy.sh
