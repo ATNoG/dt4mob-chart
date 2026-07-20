@@ -20,6 +20,8 @@ RUN cargo build
 
 # Copy real source code and build
 COPY . .
+RUN touch src/main.rs
+ENV RUSTFLAGS="-C target-feature=-crt-static"
 RUN cargo build
 
 FROM alpine:3.24
