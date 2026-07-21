@@ -23,6 +23,18 @@ dt4mob-controller:
       gatewayServiceName: "dt4mob-ditto-gateway"
       devopsSecretName: "dt4mob-ditto-gateway-secret"
 
+dt4mob-certificate-service:
+  config:
+    pathPrefix: "/certificates"
+    adminRole: "admin"
+    permittedRoles:
+      - "certificate-issuer"
+    secret:
+      name: "{{ .Release.Name }}-tenant-ca-secret"
+    oidc:
+      issuerURI: "https://{{ .Values.global.host }}/auth/realms/dt4mob"
+      clientID: "ditto"
+
 dt4mob-site:
   enabled: true
   repository: "atnog-harbor.av.it.pt/dt4mob/website"
@@ -88,7 +100,7 @@ dt4mob-historical:
     storage:
       storageClass: "local-path"
       size: 10Gi
-  
+
 dt4mob-garbage-collector:
   enabled: false
   config:
@@ -138,6 +150,13 @@ dt4mob-meteo-populator:
     secret:
       secretName: dt4mob-internal-keycloak-tls
 
+dt4mob-data-bridge:
+  enabled: false
+
+  caCertSecretName: "{{ .Release.Name }}-root-ca-secret"
+
+  hono:
+    http_adapter: "https://{{ .Release.Name }}-hono-adapter-http:8443"
 
 reloader:
   reloader:
@@ -163,6 +182,10 @@ hono:
   deviceRegistryExample:
     type: mongodb
     addExampleData: false
+
+    svc:
+      enabled: false
+
     mongoDBBasedDeviceRegistry:
       containerRegistry: "atnog-harbor.av.it.pt"
       imageName: "capucho/hono-service-device-registry-mongodb"
@@ -229,6 +252,7 @@ hono:
         ssl.keystore.type: "PKCS12"
         ssl.keystore.password: ${KEY_STORE_PASSWORD}
         ssl.keystore.location: "/opt/hono/tls/kafka-certs/user.p12"
+  
 
     mqtt:
       resources:
@@ -240,6 +264,11 @@ hono:
           reloader.stakater.com/auto: "true"
 
       quarkusLoggingProfile: "prod"
+
+      kafkaMessagingSpec:
+        telemetry:
+          producerConfig:
+            partitioner.ignore.keys: true
 
       tlsKeysSecret: "dt4mob-adapter-mqtt-cert"
       tlsTrustStoreConfigMap: "none"
@@ -286,6 +315,11 @@ hono:
 
       quarkusLoggingProfile: "prod"
 
+      kafkaMessagingSpec:
+        telemetry:
+          producerConfig:
+            partitioner.ignore.keys: true
+
       tlsKeysSecret: "dt4mob-adapter-http-cert"
       tlsTrustStoreConfigMap: "none"
       tlsTrustStoreSecret:
@@ -330,6 +364,11 @@ hono:
           reloader.stakater.com/auto: "true"
 
       quarkusLoggingProfile: "prod"
+
+      kafkaMessagingSpec:
+        telemetry:
+          producerConfig:
+            partitioner.ignore.keys: true
 
       tlsKeysSecret: "dt4mob-adapter-amqp-cert"
       tlsTrustStoreConfigMap: "none"
@@ -582,6 +621,8 @@ ditto:
     uriSecret: "dt4mob-mongodb-ditto-secret"
 
 kafka:
+  version: 4.3.0
+  metadataVersion: 4.3
   controller:
     replicas: 3
     # resources:
@@ -593,15 +634,20 @@ kafka:
     # affinity:
     # tolerations:
   config:
+    num.partitions: 10
     offsets.topic.replication.factor: 3
     transaction.state.log.replication.factor: 3
     transaction.state.log.min.isr: 2
     default.replication.factor: 3
     min.insync.replicas: 2
-    log.retention.hours: 72 # 3 days
+    log.retention.hours: 24 # 1 days
     log.retention.bytes: 2147483648 # 2 GiB
     log.segment.bytes: 157286400 # 150 MiB
     log.retention.check.interval.ms: 300000
+  metrics:
+    enabled: true
+  cruiseControl:
+    enabled: true
 
 psmdb-db:
   image:

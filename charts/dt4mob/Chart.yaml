@@ -20,6 +20,9 @@ dependencies:
   - name: dt4mob-controller
     version: "0.1.0"
     repository: file://../dt4mob-controller
+  - name: dt4mob-certificate-service
+    version: "0.1.0"
+    repository: file://../dt4mob-certificate-service
   - name: dt4mob-historical
     version: "0.1.0"
     repository: file://../dt4mob-historical
@@ -43,3 +46,7 @@ dependencies:
     version: "0.1.0"
     repository: file://../dt4mob-meteo-populator
     condition: dt4mob-meteo-populator.enabled
+  - name: dt4mob-data-bridge
+    version: "0.1.0"
+    repository: file://../dt4mob-data-bridge
+    condition: dt4mob-data-bridge.enabled
