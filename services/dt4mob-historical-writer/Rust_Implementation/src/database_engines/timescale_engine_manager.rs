@@ -16,14 +16,8 @@ impl TimescaleDBEngineManager {
     pub async fn init_db(&self) -> Result<(), sqlx::Error> {
         info!("Initializing database tables and TimescaleDB features");
 
-        for statement in DDL_SQL.split(';') {
-            let stmt = statement.trim();
-            if stmt.is_empty() {
-                continue;
-            }
-            debug!("Executing: {}", stmt);
-            sqlx::query(stmt).execute(&self.pool).await?;
-        }
+        // raw_sql executes multi-statement SQL files and preserves DO $$ blocks without breaking on ';'
+        sqlx::raw_sql(DDL_SQL).execute(&self.pool).await?;
 
         info!("Database initialization complete");
         Ok(())

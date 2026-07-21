@@ -19,10 +19,10 @@ impl TryFrom<&str> for Action {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
-            "modified" => Ok(Action::Modified),
-            "created" => Ok(Action::Created),
-            "deleted" => Ok(Action::Deleted),
-            "merged" => Ok(Action::Merged),
+            "modified" | "MODIFIED" => Ok(Action::Modified),
+            "created" | "CREATE" => Ok(Action::Created),
+            "deleted" | "DELETE" => Ok(Action::Deleted),
+            "merged" | "MERGED" => Ok(Action::Merged),
             _ => Err(format!("Unknown action: {}", value)),
         }
     }
@@ -31,10 +31,10 @@ impl TryFrom<&str> for Action {
 impl std::fmt::Display for Action {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Action::Modified => write!(f, "modified"),
-            Action::Created => write!(f, "created"),
-            Action::Deleted => write!(f, "deleted"),
-            Action::Merged => write!(f, "merged"),
+            Action::Modified => write!(f, "MODIFIED"),
+            Action::Created => write!(f, "CREATE"),
+            Action::Deleted => write!(f, "DELETE"),
+            Action::Merged => write!(f, "MERGED"),
         }
     }
 }
@@ -50,10 +50,17 @@ pub struct DittoEvent {
 }
 
 pub const DDL_SQL: &str = r#"
+DO $$ 
+BEGIN
+    CREATE TYPE action_enum AS ENUM ('MODIFIED', 'CREATE', 'DELETE', 'MERGED');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
 CREATE TABLE IF NOT EXISTS dittoevent (
     time TIMESTAMPTZ NOT NULL,
     thing_id VARCHAR NOT NULL,
-    action VARCHAR NOT NULL,
+    action action_enum NOT NULL,
     revision INTEGER,
     path VARCHAR NOT NULL,
     value JSONB
@@ -71,6 +78,6 @@ ALTER TABLE dittoevent SET (
 
 SELECT add_compression_policy('dittoevent', INTERVAL '7 days', if_not_exists => TRUE);
 
--- Keep this! Since thing_id is used for segmentby, having an index on it is highly beneficial for queries.
+-- Index for segmentby optimization
 CREATE INDEX IF NOT EXISTS idx_dittoevent_thing_id ON dittoevent (thing_id);
 "#;
