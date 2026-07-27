@@ -2,10 +2,13 @@ use std::time::Duration;
 
 use tokio::sync::mpsc;
 use tokio::time::interval;
-use tracing::{debug, error, info};
+use tracing::{debug, error, info, warn};
 
 use crate::database_engines::timescale_engine_manager::TimescaleDBEngineManager;
 use crate::models::ditto_event::DittoEvent;
+
+const MAX_RETRIES: u32 = 3;
+const BACKOFF_MS: &[u64] = &[100, 500, 2000];
 
 pub async fn run_batch_writer(
     db_engine: &TimescaleDBEngineManager,
@@ -54,7 +57,32 @@ async fn flush(db_engine: &TimescaleDBEngineManager, buffer: &mut Vec<DittoEvent
     let count = events.len();
     debug!("Flushing batch of {} events", count);
 
-    if let Err(e) = db_engine.write_events(&events).await {
-        error!("Error writing batch of {} events to database: {}", count, e);
+    for attempt in 0..MAX_RETRIES {
+        match db_engine.write_events(&events).await {
+            Ok(_) => {
+                if attempt > 0 {
+                    info!("Batch of {} events written successfully after {} retries", count, attempt);
+                }
+                return;
+            }
+            Err(e) => {
+                if attempt < MAX_RETRIES - 1 {
+                    let backoff = BACKOFF_MS[attempt as usize];
+                    warn!(
+                        "Batch write failed (attempt {}/{}, backoff {}ms): {}",
+                        attempt + 1,
+                        MAX_RETRIES,
+                        backoff,
+                        e
+                    );
+                    tokio::time::sleep(Duration::from_millis(backoff)).await;
+                } else {
+                    error!(
+                        "Batch write failed after {} attempts, dropping {} events: {}",
+                        MAX_RETRIES, count, e
+                    );
+                }
+            }
+        }
     }
 }

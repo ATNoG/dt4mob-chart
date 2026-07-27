@@ -1,7 +1,7 @@
 use rdkafka::consumer::{Consumer, StreamConsumer};
 use rdkafka::Message;
 use serde_json::Value;
-use tracing::{debug, error, info};
+use tracing::{debug, error, info, warn};
 
 use crate::services::ditto_events_manager::DittoEventsManager;
 use crate::services::message_processor::parse_message;
@@ -68,10 +68,14 @@ impl KafkaConsumer {
 
                     debug!("Writing event: time={}, thing_id={}", event.time, event.thing_id);
 
-                    match manager.write(event).await {
+                    match manager.try_write(event) {
                         Ok(_) => {}
-                        Err(e) => {
-                            error!("Error writing to database: {}", e);
+                        Err(tokio::sync::mpsc::error::TrySendError::Full(_)) => {
+                            warn!("Channel full, dropping event — batch writer cannot keep up");
+                        }
+                        Err(tokio::sync::mpsc::error::TrySendError::Closed(_)) => {
+                            error!("Channel closed, batch writer is no longer running");
+                            break;
                         }
                     }
                 }

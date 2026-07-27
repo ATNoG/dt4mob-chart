@@ -37,7 +37,12 @@ async fn main() {
 
     info!("Starting dt4mob-historical-writer (Rust)");
 
-    let db_engine = match TimescaleDBEngineManager::new(&settings.timescale.get_connection()).await
+    let db_engine = match TimescaleDBEngineManager::new(
+        &settings.timescale.get_connection(),
+        settings.timescale.max_connections,
+        settings.timescale.acquire_timeout_ms,
+    )
+    .await
     {
         Ok(engine) => engine,
         Err(e) => {

@@ -11,7 +11,7 @@ impl DittoEventsManager {
         Self { sender }
     }
 
-    pub async fn write(&self, event: DittoEvent) -> Result<(), mpsc::error::SendError<DittoEvent>> {
-        self.sender.send(event).await
+    pub fn try_write(&self, event: DittoEvent) -> Result<(), mpsc::error::TrySendError<DittoEvent>> {
+        self.sender.try_send(event)
     }
 }

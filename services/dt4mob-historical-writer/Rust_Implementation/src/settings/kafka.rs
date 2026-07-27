@@ -8,6 +8,8 @@ pub struct KafkaSettings {
     pub consumer_group: String,
     pub topic: String,
     pub auto_offset_reset: String,
+    pub session_timeout_ms: String,
+    pub heartbeat_interval_ms: String,
 }
 
 impl KafkaSettings {
@@ -21,6 +23,10 @@ impl KafkaSettings {
             consumer_group: std::env::var("KAFKA_CONSUMER_GROUP")?,
             topic: std::env::var("KAFKA_TOPIC")?,
             auto_offset_reset: std::env::var("KAFKA_AUTO_OFFSET_RESET")?,
+            session_timeout_ms: std::env::var("KAFKA_SESSION_TIMEOUT_MS")
+                .unwrap_or_else(|_| "45000".to_string()),
+            heartbeat_interval_ms: std::env::var("KAFKA_HEARTBEAT_INTERVAL_MS")
+                .unwrap_or_else(|_| "15000".to_string()),
         })
     }
 
@@ -34,6 +40,8 @@ impl KafkaSettings {
             ("group.id", &self.consumer_group),
             ("auto.offset.reset", &self.auto_offset_reset),
             ("enable.auto.commit", "true"),
+            ("session.timeout.ms", &self.session_timeout_ms),
+            ("heartbeat.interval.ms", &self.heartbeat_interval_ms),
         ]
     }
 }

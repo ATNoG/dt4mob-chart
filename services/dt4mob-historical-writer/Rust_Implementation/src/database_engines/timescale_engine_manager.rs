@@ -1,4 +1,6 @@
-use sqlx::postgres::PgPool;
+use std::time::Duration;
+
+use sqlx::postgres::{PgPool, PgPoolOptions};
 use tracing::{debug, info};
 
 use crate::models::ditto_event::{DDL_SQL, DittoEvent};
@@ -8,8 +10,18 @@ pub struct TimescaleDBEngineManager {
 }
 
 impl TimescaleDBEngineManager {
-    pub async fn new(database_url: &str) -> Result<Self, sqlx::Error> {
-        let pool = PgPool::connect(database_url).await?;
+    pub async fn new(
+        database_url: &str,
+        max_connections: u32,
+        acquire_timeout_ms: u64,
+    ) -> Result<Self, sqlx::Error> {
+        let pool = PgPoolOptions::new()
+            .max_connections(max_connections)
+            .acquire_timeout(Duration::from_millis(acquire_timeout_ms))
+            .idle_timeout(Duration::from_secs(300))
+            .max_lifetime(Duration::from_secs(1800))
+            .connect(database_url)
+            .await?;
         Ok(Self { pool })
     }
 
