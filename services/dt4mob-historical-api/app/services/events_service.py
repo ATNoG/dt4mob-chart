@@ -18,7 +18,7 @@ class EventsService:
         self.session = session
 
     def get_available_things(self, thing_id_prefix: str | None = None) -> list[str]:
-        query = select(DittoEvent.thing_id).distinct()
+        query = select(DittoEvent.thing_id).distinct().order_by(DittoEvent.thing_id)
         if thing_id_prefix:
             query = query.where(DittoEvent.thing_id.startswith(thing_id_prefix))
         result = self.session.exec(query)
