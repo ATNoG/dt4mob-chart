@@ -1,6 +1,8 @@
+pub mod batch;
 pub mod kafka;
 pub mod timescale;
 
+use batch::BatchSettings;
 use kafka::KafkaSettings;
 use timescale::TimeScale;
 
@@ -9,6 +11,7 @@ pub struct Settings {
     pub log_level: String,
     pub kafka: KafkaSettings,
     pub timescale: TimeScale,
+    pub batch: BatchSettings,
 }
 
 impl Settings {
@@ -17,6 +20,7 @@ impl Settings {
             log_level: std::env::var("LOG_LEVEL").unwrap_or_else(|_| "INFO".to_string()),
             kafka: KafkaSettings::from_env()?,
             timescale: TimeScale::from_env()?,
+            batch: BatchSettings::from_env()?,
         })
     }
 }

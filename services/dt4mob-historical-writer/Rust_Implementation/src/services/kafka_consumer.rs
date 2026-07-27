@@ -68,7 +68,7 @@ impl KafkaConsumer {
 
                     debug!("Writing event: time={}, thing_id={}", event.time, event.thing_id);
 
-                    match manager.write(&event).await {
+                    match manager.write(event).await {
                         Ok(_) => {}
                         Err(e) => {
                             error!("Error writing to database: {}", e);

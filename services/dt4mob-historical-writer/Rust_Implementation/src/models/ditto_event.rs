@@ -79,5 +79,5 @@ ALTER TABLE dittoevent SET (
 SELECT add_compression_policy('dittoevent', INTERVAL '7 days', if_not_exists => TRUE);
 
 -- Index for segmentby optimization
-CREATE INDEX IF NOT EXISTS idx_dittoevent_thing_id ON dittoevent (thing_id);
+CREATE INDEX IF NOT EXISTS idx_dittoevent_thing_id_time ON dittoevent (thing_id, time DESC);
 "#;

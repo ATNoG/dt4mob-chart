@@ -7,6 +7,7 @@ use tracing::{info, error};
 use tracing_subscriber::EnvFilter;
 
 use database_engines::timescale_engine_manager::TimescaleDBEngineManager;
+use services::batch_writer::run_batch_writer;
 use services::ditto_events_manager::DittoEventsManager;
 use services::kafka_consumer::KafkaConsumer;
 use settings::Settings;
@@ -50,7 +51,16 @@ async fn main() {
         std::process::exit(1);
     }
 
-    let manager = DittoEventsManager::new(db_engine);
+    let (tx, rx) = tokio::sync::mpsc::channel(settings.batch.channel_capacity);
+    let manager = DittoEventsManager::new(tx);
+
+    let batch_engine = db_engine.pool.clone();
+    let batch_size = settings.batch.batch_size;
+    let flush_interval_ms = settings.batch.flush_interval_ms;
+
+    tokio::spawn(async move {
+        run_batch_writer(&TimescaleDBEngineManager { pool: batch_engine }, rx, batch_size, flush_interval_ms).await;
+    });
 
     let consumer = match KafkaConsumer::new(settings.kafka.as_dict(), &settings.kafka.topic) {
         Ok(c) => c,

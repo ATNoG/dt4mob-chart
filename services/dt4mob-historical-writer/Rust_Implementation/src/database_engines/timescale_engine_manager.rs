@@ -1,7 +1,7 @@
 use sqlx::postgres::PgPool;
 use tracing::{debug, info};
 
-use crate::models::ditto_event::DDL_SQL;
+use crate::models::ditto_event::{DDL_SQL, DittoEvent};
 
 pub struct TimescaleDBEngineManager {
     pub pool: PgPool,
@@ -35,7 +35,7 @@ impl TimescaleDBEngineManager {
         sqlx::query(
             r#"
             INSERT INTO dittoevent (time, thing_id, action, revision, path, value)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            VALUES ($1, $2, $3::action_enum, $4, $5, $6)
             "#,
         )
         .bind(time)
@@ -48,5 +48,53 @@ impl TimescaleDBEngineManager {
         .await?;
 
         Ok(())
+    }
+
+    pub async fn write_events(&self, events: &[DittoEvent]) -> Result<(), sqlx::Error> {
+        if events.is_empty() {
+            return Ok(());
+        }
+
+        let sql = Self::build_batch_query(events.len());
+        debug!("Batch INSERT with {} events, SQL length: {}", events.len(), sql.len());
+
+        let mut query = sqlx::query(&sql);
+
+        for event in events {
+            query = query
+                .bind(event.time)
+                .bind(&event.thing_id)
+                .bind(event.action.to_string())
+                .bind(event.revision)
+                .bind(&event.path)
+                .bind(&event.value);
+        }
+
+        query.execute(&self.pool).await?;
+        Ok(())
+    }
+
+    fn build_batch_query(row_count: usize) -> String {
+        let mut sql = String::from(
+            "INSERT INTO dittoevent (time, thing_id, action, revision, path, value) VALUES ",
+        );
+
+        for i in 0..row_count {
+            if i > 0 {
+                sql.push_str(", ");
+            }
+            let base = i * 6;
+            sql.push_str(&format!(
+                "(${}, ${}, ${}::action_enum, ${}, ${}, ${})",
+                base + 1,
+                base + 2,
+                base + 3,
+                base + 4,
+                base + 5,
+                base + 6
+            ));
+        }
+
+        sql
     }
 }

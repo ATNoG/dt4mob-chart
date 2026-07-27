@@ -34,7 +34,6 @@ RUN apk add --no-cache \
 # Force immediate log flushing to terminal/Kubernetes
 ENV RUST_LOG_STYLE=always
 ENV RUST_BACKTRACE=1
-ENV LOG_LEVEL=debug
 
 COPY --from=builder /app/target/debug/Rust_Implementation /app/Rust_Implementation
 
