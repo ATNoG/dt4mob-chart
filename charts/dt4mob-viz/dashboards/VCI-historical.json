@@ -5,8 +5,8 @@
     "name": "jccms2s",
     "namespace": "default",
     "uid": "d71272b5-6068-4139-bbbc-e9059947c98a",
-    "resourceVersion": "1782841587445002",
-    "generation": 85,
+    "resourceVersion": "1784912271514007",
+    "generation": 123,
     "creationTimestamp": "2026-06-29T14:25:04Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "4448613597446144"
@@ -16,7 +16,7 @@
       "grafana.app/folder": "",
       "grafana.app/saved-from-ui": "Grafana v13.0.2 (3fcdbc5a)",
       "grafana.app/updatedBy": "user:efpmz9ng9o6iod",
-      "grafana.app/updatedTimestamp": "2026-06-30T17:46:27Z"
+      "grafana.app/updatedTimestamp": "2026-07-24T16:57:51Z"
     }
   },
   "spec": {
@@ -141,6 +141,175 @@
                   }
                 },
                 "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "id": 10,
+          "title": "Alert/Alarm Logs",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "reason",
+                            "text": "02-Reason",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "type",
+                            "text": "03-Warning",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "timestamp",
+                            "text": "01-Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "data": "[{\"type\": \"alert\", \"reason\": \"reason5\", \"timestamp\": \"2026-01-01\"}\n,{\"type\": \"alarm\", \"reason\": \"reason4\", \"timestamp\": \"2026-01-02\"}\n,{\"type\": \"alarm\", \"reason\": \"reason3\", \"timestamp\": \"2026-01-03\"}\n,{\"type\": \"alert\", \"reason\": \"reason2\", \"timestamp\": \"2026-01-04\"}\n,{\"type\": \"alarm\", \"reason\": \"reason1\", \"timestamp\": \"2026-01-05\"}]",
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "inline",
+                        "type": "json",
+                        "url": "",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET"
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true,
+                "sortBy": []
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "scope": "series",
+                      "options": "03-Warning"
+                    },
+                    "properties": [
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "options": {
+                              "alarm": {
+                                "color": "semi-dark-red",
+                                "index": 1,
+                                "text": "ALARM"
+                              },
+                              "alert": {
+                                "color": "orange",
+                                "index": 0,
+                                "text": "ALERT"
+                              }
+                            },
+                            "type": "value"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "applyToRow": false,
+                          "type": "color-background"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "02-Reason"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.width",
+                        "value": 406
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "01-Time"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.width",
+                        "value": 190
+                      }
+                    ]
+                  }
+                ]
               }
             }
           }
@@ -834,6 +1003,1347 @@
             }
           }
         }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "id": 6,
+          "title": "Vehicle count per lane",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==1)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 1",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==2)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 2",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==3)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 3",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==4)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 4",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==5)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 5",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==6)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 6",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==7)"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 7",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "bargauge",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "displayMode": "basic",
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "maxVizHeight": 300,
+                "minVizHeight": 16,
+                "minVizWidth": 8,
+                "namePlacement": "auto",
+                "orientation": "vertical",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "sizing": "auto",
+                "valueMode": "color"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "id": 7,
+          "title": "Global Vehicle count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Count",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "$[value != null][-1]",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "vertical",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "id": 8,
+          "title": "Vehicle average speed per lane",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==1)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 1",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==2)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 2",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==3)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 3",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==4)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 4",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==5)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 5",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==6)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 6",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "bucket",
+                            "text": "Time",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "json_filter",
+                              "value": "$.properties?(@.lane==7)"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "Lane 7",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "id": 9,
+          "title": "Global Vehicle average speed",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "PC0D9786ABF929414"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "value",
+                            "text": "Speed",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "$[value != null][-1]",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/events/time-buckets/${sensor_id}",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "json_path",
+                              "value": "$.properties.speed"
+                            },
+                            {
+                              "key": "since",
+                              "value": "${__from:date}"
+                            },
+                            {
+                              "key": "until",
+                              "value": "${__to:date}"
+                            },
+                            {
+                              "key": "bucket_minutes",
+                              "value": "${time_interval}"
+                            },
+                            {
+                              "key": "path_prefix",
+                              "value": "/features/vehicle"
+                            },
+                            {
+                              "key": "agg_type",
+                              "value": "avg"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "vertical",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "velocitykmh",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "red"
+                      },
+                      {
+                        "value": 50,
+                        "color": "green"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
       }
     },
     "layout": {
@@ -902,6 +2412,71 @@
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-5"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 14,
+              "width": 12,
+              "height": 3,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-7"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 14,
+              "width": 12,
+              "height": 3,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-9"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 17,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-8"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 17,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-6"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 25,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-10"
               }
             }
           }
